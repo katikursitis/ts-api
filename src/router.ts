@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
 import loginSchema from "./middlewares/shemas/login";
 import validateJWTSchema from "./middlewares/shemas/validateJWT";
-import { verifyJWT, fetchJWT } from "./middlewares/validators/jwt";
-import { validateUser } from "./middlewares/validators/login";
+import JwtValidator from "./middlewares/validators/jwt";
+import UserValidator from "./middlewares/validators/login";
 import JsonValidator from "express-jsonschema";
 import Db from "./services/Mongo";
 import jwt from "jsonwebtoken";
@@ -13,19 +13,17 @@ const main = async () => {
     const db: Db = new Db("mongodb://db", "paybox");
     await db.connect();
 
-    console.log('here');
-
     router.post(
         "/validate",
-        fetchJWT,
+        JwtValidator.fetchJWT,
         JsonValidator.validate({ body: validateJWTSchema }),
-        verifyJWT
+        JwtValidator.verifyJWT
     );
 
     router.post(
         "/login", 
         JsonValidator.validate({ body: loginSchema }),
-        validateUser(db),
+        UserValidator.validateUser(db),
         (req: Request, res: Response) => {
             try {
                 const token: jwt.Secret = jwt.sign(

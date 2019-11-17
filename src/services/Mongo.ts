@@ -1,5 +1,4 @@
-import MongoClient from "mongodb";
-
+import MongoClient, { MongoClient as MongoClientType } from "mongodb";
 
 export default class Mongo {
 
@@ -8,7 +7,7 @@ export default class Mongo {
     constructor(protected dbHost: string, protected dbName: string) { }
 
     async connect(): Promise<void> {
-        let mongo = await MongoClient.connect(this.dbHost);
+        let mongo: MongoClientType = await MongoClient.connect(this.dbHost);
         this.db = await mongo.db(this.dbName);
     }
 
@@ -19,7 +18,6 @@ export default class Mongo {
         } catch (err) {
             throw new Error();
         }
-        
     }
     
 }
