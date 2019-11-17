@@ -15,10 +15,6 @@ describe("generate new address flow", () => {
         await db.addMany("users", mockUsers);
     });
 
-    afterAll(async () => {
-        await db.clean('users');
-    });
-
     it("generates a new token", async () => {
         const loginData = mockData.users[0];
         const response = await axios.post('http://app:3000/login', loginData);

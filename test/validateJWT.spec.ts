@@ -5,14 +5,6 @@ import axios from "axios";
 
 describe("generate new address flow", () => {
 
-    beforeAll(async () => {
-        
-    });
-
-    afterAll(async () => {
-        await db.clean('users');
-    });
-
     it("validate created token from body", async () => {
         const mockUser = mockData.users[0];
         const token = signJWT(mockUser.username, mockUser.password);
